@@ -1,0 +1,52 @@
+<div *ngIf="doctorProfile">
+  <mat-card class="profile-card">
+    <!-- Back button -->
+    <button mat-icon-button color="primary" (click)="backToAppointments()" class="back-button">
+      <i class="material-icons">arrow_back</i>
+    </button>
+
+    <!-- Profile Header -->
+    <h2 class="profile-header">Profile</h2>
+
+    <mat-card-content>
+      <!-- Profile Information -->
+      <table class="profile-table">
+        <tr>
+          <th>Name</th>
+          <td>{{ doctorProfile.firstName + " " + doctorProfile.lastName }}</td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td>{{ doctorProfile.email }}</td>
+        </tr>
+        <tr>
+          <th>Specialization</th>
+          <td>{{ doctorProfile.specialization }}</td>
+        </tr>
+        <tr>
+          <th>Phone</th>
+          <td>{{ doctorProfile.phone }}</td>
+        </tr>
+        <tr>
+          <th>Days Available</th>
+          <td>{{ doctorProfile.availability.availableDays }}</td>
+        </tr>
+        <tr>
+          <th>Available From</th>
+          <td>{{ formatTime(doctorProfile.availability.availableFrom) }}</td>
+        </tr>
+        <tr>
+          <th>Available Until</th>
+          <td>{{ formatTime(doctorProfile.availability.availableUntil) }}</td>
+        </tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<ng-template  *ngIf="errorMessage!='' && !doctorProfile" >
+<loading message="Profile Loading" ></loading>
+</ng-template>

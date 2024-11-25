@@ -1,0 +1,48 @@
+<div class="login-container">
+  <div class="login-card">
+    <h2 class="login-header">Welcome Back</h2>
+    <p class="login-subtext">Log in to your account</p>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Email Input -->
+      <div class="form-group">
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="Enter your email"
+          class="form-input"
+        />
+        <small *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="error-message">
+          Valid email is required.
+        </small>
+      </div>
+      <!-- Password Input -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="Enter your password"
+          class="form-input"
+        />
+        <small *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid" class="error-message">
+          Password must be at least 6 characters.
+        </small>
+      </div>
+      <!-- Submit Button -->
+      <button type="submit" [disabled]="loginForm.invalid" class="login-button">
+        Log In
+      </button>
+
+    </form>
+    <!-- Additional Links -->
+    <div class="login-footer">
+      <a href="#">Forgot your password?</a>
+    </div>
+  </div>
+</div>

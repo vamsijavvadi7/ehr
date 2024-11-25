@@ -1,0 +1,31 @@
+<div class="dashboard-container">
+  <!-- Top Navbar -->
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <i><img src="symbol.webp" alt="Logo" class="navbar-logo-icon"></i>
+    </div>
+    <!-- Profile icon and dropdown -->
+    <div class="profile-menu">
+      <img class="profile-icon" src="person.jpg" alt="Profile" (click)="toggleProfileMenu()" />
+      <div class="dropdown" *ngIf="isProfileMenuVisible">
+        <div class="dropdown-item" (click)="viewDoctorProfile()">View Profile</div>
+        <div class="dropdown-item" (click)="vieweditDoctorProfile()">Edit Profile</div>
+        <div class="dropdown-item" (click)="logOut()">Log out</div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="content">
+    <!-- Conditional rendering of the doctor profile -->
+    <app-doctor-profile *ngIf="showDoctorProfile">
+    </app-doctor-profile>
+
+    <app-edit-doctor-profile *ngIf="editDoctorProfile"></app-edit-doctor-profile>
+
+    <!-- Appointment List Component, shown when not viewing the profile -->
+    <app-appointment-list *ngIf="!showDoctorProfile && !editDoctorProfile">
+    </app-appointment-list>
+
+  </div>
+</div>

@@ -1,0 +1,440 @@
+<mat-sidenav-container class="patient-overview-container">
+
+  <!-- Back button on the left side of the tabs -->
+  <!-- Side Menu -->
+  <mat-sidenav #sidenav mode="side" opened>
+    <mat-nav-list>
+      <mat-list-item (click)="onBackButtonClick()">
+      <div class="back-button">
+        <div class="back-button-arrow">
+        <mat-icon>arrow_back</mat-icon>
+        </div>
+      </div>
+      </mat-list-item>
+
+      <mat-list-item (click)="selectTab(0)" >
+        <div class="nav-label-content">
+         {{ capitalizeEachWord(patientDetails?.firstName + " " + patientDetails?.lastName)}} <br>
+        {{ selectedAppointment?.appointmentTime | date: 'short' }}
+        </div>
+      </mat-list-item>
+      <mat-list-item (click)="selectTab(1)" class="nav-label-content">
+        <div class="nav-label-content">
+        Family History
+        </div>
+      </mat-list-item>
+      <mat-list-item (click)="selectTab(2)" class="nav-label-content">
+        <div class="nav-label-content">
+        Prescriptions
+        </div>
+      </mat-list-item>
+      <mat-list-item (click)="selectTab(3)" class="nav-label-content">
+        <div class="nav-label-content">
+        Diagnoses
+        </div>
+      </mat-list-item>
+      <mat-list-item (click)="selectTab(4)" class="nav-label-content">
+        <div class="nav-label-content">
+          Patient Visit Info
+        </div>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Main Content -->
+  <mat-sidenav-content>
+    <!-- Display content based on the active tab index -->
+    <div *ngIf="activeTab === 0">
+      <div class="tab-content">
+        <h3 class="tab-header">Patient Details</h3>
+        <div class="patient-details-content">
+          <!-- Displaying Patient Name and Appointment Time in the details section -->
+          <div class="details-item">
+            <strong>Name</strong> <span> {{ capitalizeEachWord(patientDetails?.firstName + " " + patientDetails?.lastName)}} </span>
+          </div>
+          <div class="details-item">
+            <strong>Appointment Time</strong> <span>{{ selectedAppointment?.appointmentTime | date: 'medium' }}</span>
+          </div>
+
+          <!-- Existing Patient Details -->
+          <div class="details-item">
+            <strong>Email</strong> <span>{{ patientDetails?.email }}</span>
+          </div>
+          <div class="details-item">
+            <strong>Phone</strong> <span>{{ patientDetails?.phone }}</span>
+          </div>
+          <div class="details-item">
+            <strong>Address</strong>
+            <span>
+          {{ patientDetails?.address?.street }}, {{ patientDetails?.address?.city }},
+              {{ patientDetails?.address?.state }} {{ patientDetails?.address?.postalCode }}
+        </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab === 1">
+      <div *ngIf="!familyHistoryLoaded">
+        <loading message="Loading Family History..."></loading>
+      </div>
+      <div class="familyhistory-tab-content" *ngIf="familyHistoryLoaded">
+        <h3 class="familyhistory-tab-header">Family History</h3>
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+
+        <form [formGroup]="familyHistoryForm" (ngSubmit)="submitFamilyHistory()" class="familyhistory-input-form">
+          <div class="familyhistory-input-group">
+            <!-- Condition Input -->
+            <div class="familyhistory-input">
+              <label for="condition" class="familyhistory-label">Condition</label>
+              <input
+                id="medical-condition"
+                formControlName="condition"
+                type="text"
+                placeholder="Enter Condition"
+                class="familyhistory-input-field" />
+              <div *ngIf="familyHistoryForm.get('condition')?.hasError('required') && familyHistoryForm.get('condition')?.touched">
+                <small class="error-message">Condition is required.</small>
+              </div>
+            </div>
+
+            <!-- Relationship Input -->
+            <div class="familyhistory-input">
+              <label for="relationship" class="familyhistory-label">Relationship</label>
+              <input
+                id="relationship"
+                formControlName="relationship"
+                type="text"
+                placeholder="Enter Relationship"
+                class="familyhistory-input-field" />
+              <div *ngIf="familyHistoryForm.get('relationship')?.hasError('required') && familyHistoryForm.get('relationship')?.touched">
+                <small class="error-message">Relationship is required.</small>
+              </div>
+            </div>
+          </div>
+          <div class="submit-button-content">
+            <button
+              type="submit"
+              [disabled]="visitNotesForm.invalid"
+              class="familyhistory-submit-btn">
+              Add Family History
+            </button>
+          </div>
+        </form>
+        <div class="familyhistory-table-container">
+          <table class="familyhistory-table">
+            <thead>
+            <tr>
+              <th>Condition</th>
+              <th>Relationship</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let history of familyHistory">
+              <td>{{ capitalizeEachWord(history.condition) }}</td>
+              <td>{{ capitalizeEachWord(history.relationship) }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <div *ngIf="activeTab === 2">
+      <div *ngIf="!prescriptionsLoaded">
+        <loading message="Loading Prescriptions..."></loading>
+
+      </div>
+      <div class="prescription-tab-content" *ngIf="prescriptionsLoaded">
+        <h3 class="prescription-tab-header">Prescription</h3>
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+        <form [formGroup]="prescriptionForm" (ngSubmit)="submitPrescription()" class="prescription-input-form">
+          <div class="prescription-input-group">
+            <!-- Medication Input -->
+            <div class="prescription-input">
+              <label for="medicationName" class="prescription-label">Medication Name</label>
+              <input
+                id="medicationName"
+                formControlName="medicationName"
+                type="text"
+                placeholder="Enter Medication Name"
+                class="prescription-input-field" />
+              <div *ngIf="prescriptionForm.get('medicationName')?.hasError('required') && prescriptionForm.get('medicationName')?.touched">
+                <small class="error-message">Medication Name is required.</small>
+              </div>
+            </div>
+
+            <!-- Dosage Input -->
+            <div class="prescription-input">
+              <label for="dosage" class="prescription-label">Dosage</label>
+              <input
+                id="dosage"
+                formControlName="dosage"
+                type="text"
+                placeholder="Enter Dosage"
+                class="prescription-input-field" />
+            </div>
+            <div *ngIf="prescriptionForm.get('dosage')?.hasError('required') && prescriptionForm.get('dosage')?.touched">
+              <small class="error-message">Dosage is required.</small>
+            </div>
+
+
+
+            <!-- Frequency Input -->
+            <div class="prescription-input">
+              <label for="frequency" class="prescription-label">Frequency</label>
+              <input
+                id="frequency"
+                formControlName="frequency"
+                type="text"
+                placeholder="Enter Frequency"
+                class="prescription-input-field" />
+            </div>
+
+            <!-- Frequency Input -->
+            <div class="prescription-input">
+              <label for="instructions" class="prescription-label">Instructions</label>
+              <textarea
+                id="instructions"
+                formControlName="instructions"
+                placeholder="Enter Instructions"
+                class="prescription-input-field" ></textarea>
+            </div>
+          </div>
+          <div class="submit-button-content">
+            <button type="submit" [disabled]="prescriptionForm.invalid" class="prescription-submit-btn">Add Prescription</button></div>
+        </form>
+
+
+
+        <div class="precription-container">
+          <h2 class="prescription-header">Prescription Information</h2>
+          <mat-accordion class="prescription-accordion">
+            <mat-expansion-panel class="accordion-panel" *ngFor="let prescription of prescriptions">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ capitalizeEachWord(prescription.medicationName) }} - {{ prescription.dosage }} - {{ prescription.frequency }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="prescription-details">
+                <div class="prescription-details-item precriptioninstruction-item">
+                  <strong>Instructions:</strong>
+                  <span> {{capitalizeEachWord(prescription.instructions) || 'Not Available'}}</span>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+
+
+      </div>
+    </div>
+      <div *ngIf="activeTab === 3">
+        <div *ngIf="!diagnosesLoaded">
+          <loading message="Loading Patient Diagnosis Information......"></loading>
+        </div>
+        <div class="diagnosis-tab-content" *ngIf="diagnosesLoaded">
+          <h3 class="diagnosis-tab-header">Diagnosis</h3>
+          <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div>
+          <form [formGroup]="diagnosisForm" (ngSubmit)="submitDiagnosis()" class="diagnosis-input-form">
+            <div class="diagnosis-input-group">
+              <!-- Condition Input -->
+              <div class="diagnosis-input">
+                <label for="condition" class="diagnosis-label">Condition</label>
+                <input
+                  id="condition"
+                  formControlName="condition"
+                  type="text"
+                  placeholder="Enter Condition"
+                  class="diagnosis-input-field" />
+                <div *ngIf="diagnosisForm.get('condition')?.hasError('required') && diagnosisForm.get('condition')?.touched">
+                  <small class="error-message">Condition is required.</small>
+                </div>
+              </div>
+
+              <!-- Symptoms Input -->
+              <div class="diagnosis-input">
+                <label for="symptoms" class="diagnosis-label">Symptoms</label>
+                <input
+                  id="symptoms"
+                  formControlName="symptoms"
+                  type="text"
+                  placeholder="Enter Symptoms"
+                  class="diagnosis-input-field" />
+              </div>
+            </div>
+
+            <div class="diagnosis-input-group">
+              <!-- Notes Input -->
+              <div class="diagnosis-input">
+                <label for="diagnosticNotes" class="diagnosis-label">Diagnostic Notes</label>
+                <textarea
+                  id="diagnosticNotes"
+                  formControlName="diagnosticNotes"
+                  placeholder="Enter Diagnostic Notes"
+                  class="diagnosis-input-field"></textarea>
+                <div *ngIf="diagnosisForm.get('diagnosticNotes')?.hasError('required') && diagnosisForm.get('diagnosticNotes')?.touched">
+                  <small class="error-message">DiagnosticNotes is required.</small>
+                </div>
+              </div>
+            </div>
+            <div class="submit-button-content">
+              <button type="submit" [disabled]="diagnosisForm.invalid" class="diagnosis-submit-btn">Add Diagnosis</button>
+            </div>
+          </form>
+
+
+          <div class="diagnosis-container">
+            <h2 class="diagnosis-header">Diagnosis Information</h2>
+            <mat-accordion class="diagnosis-accordion">
+              <mat-expansion-panel class="accordion-panel" *ngFor="let diagnosis of diagnoses">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ capitalizeEachWord(diagnosis.condition) || 'Not Available'}}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="diagnosis-details">
+                  <div class="diagnosis-row">
+                    <div class="diagnosis-item">
+                      <strong>Symptoms:</strong>
+                      <span>{{capitalizeEachWord(diagnosis.symptoms) || 'Not Available'}}</span>
+                    </div>
+                  </div>
+
+                  <!-- Second Row: Notes -->
+                  <div class="diagnosis-item diagnosis-itemnotes-item">
+                    <strong>Notes:</strong>
+                    <span>{{capitalizeEachWord(diagnosis.diagnosticNotes) || 'Not Available' }}</span>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+
+        </div>
+      </div>
+
+    <div *ngIf="activeTab === 4">
+      <!-- Content for Prescriptions -->
+      <div *ngIf="!appointmentvisitinfoLoaded">
+        <loading message="Loading Previous Appointment Information"></loading>
+      </div>
+      <div class="appointment-tab-content" *ngIf="appointmentvisitinfoLoaded">
+        <h3 class="appointment-tab-header">Appointment Visit Notes</h3>
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
+        <form [formGroup]="visitNotesForm" (ngSubmit)="submitVisitNotes()" class="appointment-input-form">
+          <div class="appointment-input-group horizontal">
+            <!-- Check-In Time Input -->
+            <div class="appointment-input">
+              <label for="checkInTime" class="appointment-label">Check-In Time</label>
+              <mat-form-field  class="appointment-time-picker">
+                <input
+                  matInput
+                  type="time"
+                  id="checkInTime"
+                  placeholder="Select Check-In Time"
+                  formControlName="checkInTime" />
+              </mat-form-field>
+            </div>
+
+            <!-- Check-Out Time Input -->
+            <div class="appointment-input">
+              <label for="checkOutTime" class="appointment-label">Check-Out Time</label>
+              <mat-form-field class="appointment-time-picker">
+                <input
+                  matInput
+                  type="time"
+                  id="checkOutTime"
+                  placeholder="Select Check-Out Time"
+                  formControlName="checkOutTime" />
+              </mat-form-field>
+            </div>
+          </div>
+
+
+
+          <div class="appointment-input-group">
+            <!-- Notes Input -->
+            <div class="appointment-input">
+              <label for="visitNotes" class="appointment-label">Notes</label>
+              <textarea
+                id="visitNotes"
+                formControlName="notes"
+                placeholder="Enter detailed visit notes"
+                class="appointment-input-field"></textarea>
+              <div *ngIf="visitNotesForm.get('notes')?.hasError('required') && visitNotesForm.get('notes')?.touched">
+                <small class="error-message">Notes are required.</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="submit-button-content">
+            <button type="submit" class="appointment-submit-btn" [disabled]="visitNotesForm.invalid">Save Visit Notes</button>
+          </div>
+        </form>
+        <!-- Display Submitted Visit Notes -->
+        <div class="visit-notes-container">
+          <h2 class="visit-notes-header">Visit Information</h2>
+          <mat-accordion class="visit-notes-accordion">
+            <mat-expansion-panel class="accordion-panel" *ngFor="let appointment of appointmentvisitinfo">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ appointment.appointmentTime | date: 'shortDate' }} -
+                  {{ appointment.visitInfo.checkInTime === 'Not Available' ? 'Check-In: Not Available' : 'Check-In: ' + appointment.visitInfo.checkInTime }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="visit-notes-details">
+                <!-- First Row: Times -->
+                <div class="visit-times-row">
+                  <div class="vistdetails-item">
+                    <strong>Check-In Time:</strong>
+                    <span>{{ appointment.visitInfo.checkInTime || 'Not Available' }}</span>
+                  </div>
+                  <div class="vistdetails-item">
+                    <strong>Check-Out Time:</strong>
+                    <span>{{ appointment.visitInfo.checkOutTime || 'Not Available' }}</span>
+                  </div>
+                  <div class="vistdetails-item">
+                    <strong>Appointment Time:</strong>
+                    <span>{{ appointment.appointmentTime | date: 'short' }}</span>
+                  </div>
+                </div>
+
+                <!-- Second Row: Notes -->
+                <div class="vistdetails-item visitinfonotes-item">
+                  <strong>Notes:</strong>
+                  <span>{{ appointment.visitInfo.notes || 'Not Available' }}</span>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </div>
+    </div>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,80 @@
+<div class="main-content" *ngIf="!showPatientOverview">
+<!-- Display error message if any -->
+
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<!-- Form for user input with some styling improvements -->
+<form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()" class="appointment-form">
+  <div class="form-group">
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" id="date" formControlName="date" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="appointmentForm.get('date')?.hasError('required')">
+        Date is required
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="form-group">
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Start Time</mat-label>
+      <input matInput id="startTime" formControlName="startTime"   type="time" />
+      <mat-error *ngIf="appointmentForm.get('startTime')?.hasError('required')">
+        Start time is required
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="form-group">
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>End Time</mat-label>
+      <input matInput id="endTime" formControlName="endTime" type="time" />
+      <mat-error *ngIf="appointmentForm.get('endTime')?.hasError('required')">
+        End time is required
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <button mat-raised-button color="primary" type="submit" class="submit-button-content">Submit</button>
+</form>
+  <div *ngIf="!appointmentsLoaded">
+    <loading message="Loading Appointments"></loading>
+  </div>
+<!-- Displaying appointments if available -->
+<div *ngIf="appointmentsLoaded" class="appointments-list">
+   <h2 class="appointments-title">Upcoming Appointments</h2>
+  <div class="filter-container">
+    <select id="status-filter" [(ngModel)]="selectedStatus" (change)="filterAppointments()">
+      <option value="All">All</option>
+      <option value="Scheduled">Scheduled</option>
+      <option value="Cancelled">Cancelled</option>
+      <option value="Completed">Completed</option>
+    </select>
+  </div>
+   <div class="appointments-container">
+    <div class="appointment-card" *ngFor="let appointment of filteredAppointments" (click)="viewAppointmentDetails(appointment)">
+      <div class="appointment-card-header">
+        <h3 class="appointment-id" >{{ appointment.patient?.firstName | titlecase }} {{ appointment.patient?.lastName | titlecase }}</h3>
+        <span class="appointment-status" [ngClass]="appointment?.status">
+          {{ appointment?.status }}
+        </span>
+      </div>
+      <div class="appointment-details">
+        <p><strong>Appointment Time:</strong> {{ appointment?.appointmentTime | date: 'short' }}</p>
+      </div>
+     </div>
+    </div>
+</div>
+
+<!-- Display message when no appointments are found -->
+<div *ngIf="appointments.length === 0 && !errorMessage && appointmentsLoaded" class="no-appointments-message">
+  <p>No appointments found</p>
+</div>
+
+</div>
+<patientoverview *ngIf="showPatientOverview" ></patientoverview>
+
