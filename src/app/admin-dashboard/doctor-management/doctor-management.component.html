@@ -1,0 +1,83 @@
+<div class="admin-panel">
+  <div class="header">
+    <h2>Doctor Management</h2>
+    <button class="add-button" (click)="openAddDoctorModal()">
+      <i class="fas fa-plus"></i> Add Doctor
+    </button>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="filters">
+    <input
+      type="text"
+      class="search-bar"
+      placeholder="Search by name, email, or specialization"
+      [(ngModel)]="searchQuery"
+      (input)="applyFilter()"
+    />
+  </div>
+
+  <!-- Data Table -->
+  <table class="data-table">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th (click)="sortBy('firstName')">Name</th>
+      <th (click)="sortBy('email')">Email</th>
+      <th (click)="sortBy('specialization')">Specialization</th>
+      <th >Phone</th>
+      <th (click)="sortBy('isActive')">Status</th>
+      <th>Availability</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let doctor of filteredDoctors; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ doctor.firstName }} {{ doctor.lastName }}</td>
+      <td>{{ doctor.email }}</td>
+      <td>{{ doctor.specialization }}</td>
+      <td>{{ doctor.phone }}</td>
+      <td>
+          <span [class]="doctor.isActive ? 'status-active' : 'status-inactive'">
+            {{ doctor.isActive ? 'Active' : 'Inactive' }}
+          </span>
+      </td>
+      <td>
+        {{ doctor.availability.availableDays }}<br />
+        {{ doctor.availability.availableFrom }} - {{ doctor.availability.availableUntil }}
+      </td>
+      <td>
+        <i class="fas fa-edit" (click)="openEditDoctorModal(doctor)"></i>
+        <i class="fas fa-trash" (click)="deleteDoctor(doctor.id)"></i>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="filteredDoctors.length > 0">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+
+  <div *ngIf="filteredDoctors.length === 0 && !isLoading" class="no-data">
+    No records found.
+  </div>
+
+  <div class="modal" tabindex="-1" *ngIf="isModalOpen">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ mode=='edit' ? 'Edit Doctor' : 'Add Doctor' }}</h5>
+          <button type="button" class="btn-close" (click)="closeModal()">Close</button>
+        </div>
+        <div class="modal-body">
+           <admin-add-or-edit-doctor [mode]="mode" [doctor]="editDoctor" (backToAdminPanelClicked)="handleChildEvent()">
+           </admin-add-or-edit-doctor>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,221 @@
+/* Modal background overlay */
+.modal {
+  display: block; /* Ensures the modal is visible */
+  position: fixed; /* Fixes it to the screen */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
+  z-index: 1050; /* Ensure it’s on top of other content */
+  overflow: auto; /* Allow scrolling if necessary */
+  justify-content: center; /* Centering content */
+  align-items: center; /* Vertically centering */
+  display: flex; /* Flexbox for centering */
+}
+
+/* Center the modal dialog within the modal overlay */
+.modal-dialog {
+  margin: 0;
+  max-width: 600px; /* Limit modal width */
+  width: 100%; /* Full width but limited to max width */
+  height: auto; /* Adjust height based on content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal content */
+.modal-content {
+  background-color: white;
+  border-radius: 8px; /* Soft rounded corners */
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 20px; /* Padding inside modal */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Modal header styles */
+.modal-header {
+  background-color: #007bff; /* Blue background */
+  color: white;
+  padding: 15px;
+  border-bottom: 1px solid #ddd; /* Light border between header and body */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.btn-close:hover {
+  color: #ccc;
+}
+
+/* Modal body styles */
+.modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-body .form-label {
+  font-size: 1rem;
+  color: #333;
+}
+
+.modal-body .form-control {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s;
+}
+
+.modal-body .form-control:focus {
+  border-color: #007bff; /* Blue border on focus */
+  outline: none;
+}
+
+/* Form buttons */
+button[type="submit"] {
+  background-color: #28a745; /* Green button */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+/* Disable button on loading */
+button[type="submit"]:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.admin-panel {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h2 {
+  margin: 0;
+}
+
+.add-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.add-button:hover {
+  background-color: #0056b3;
+}
+
+.filters {
+  margin: 20px 0;
+}
+
+.search-bar {
+  width: 98.5%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-transform: capitalize;
+  text-align: left;
+}
+
+.data-table th {
+  background-color: #f4f4f4;
+  cursor: pointer;
+}
+
+.data-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+.data-table .status-active {
+  color: green;
+}
+
+.data-table .status-inactive {
+  color: red;
+}
+
+.data-table .fa-edit {
+  color: #007bff;
+  cursor: pointer;
+}
+
+.data-table .fa-trash {
+  color: #dc3545;
+  cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  background-color: #f4f4f4;
+}
+
+.no-data {
+  text-align: center;
+  color: #888;
+}

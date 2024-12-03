@@ -1,0 +1,60 @@
+<div>
+  <mat-card class="profile-card">
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+    <div *ngIf="formSubmittedMessage" class="formsubmitted-message">
+      {{ formSubmittedMessage }}
+    </div>
+
+    <!-- Profile Header -->
+    <h2 class="profile-header">Edit Admin Profile</h2>
+    <mat-card-content>
+      <form [formGroup]="adminProfileForm" (ngSubmit)="submitAdminProfile()" class="profile-edit-form">
+        <div class="profile-edit-group">
+          <!-- First Name -->
+          <div class="profile-edit-input">
+            <label for="first-name" class="profile-edit-label">First Name</label>
+            <input
+              id="first-name"
+              formControlName="firstName"
+              type="text"
+              placeholder="Enter First Name"
+              class="profile-edit-input-field" />
+          </div>
+
+          <!-- Last Name -->
+          <div class="profile-edit-input">
+            <label for="last-name" class="profile-edit-label">Last Name</label>
+            <input
+              id="last-name"
+              formControlName="lastName"
+              type="text"
+              placeholder="Enter Last Name"
+              class="profile-edit-input-field" />
+          </div>
+
+          <!-- Email -->
+          <div class="profile-edit-input">
+            <label for="email" class="profile-edit-label">Email</label>
+            <input
+              id="email"
+              formControlName="email"
+              type="email"
+              placeholder="Enter Email"
+              class="profile-edit-input-field" />
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="submit-button-content">
+          <button
+            type="submit"
+            class="profile-submit-btn">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

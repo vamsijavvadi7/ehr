@@ -1,0 +1,33 @@
+<div *ngIf="adminProfile">
+  <mat-card class="profile-card">
+
+
+    <!-- Profile Header -->
+    <h2 class="profile-header">Admin Profile</h2>
+
+    <mat-card-content>
+      <!-- Profile Information -->
+      <table class="profile-table">
+        <tr>
+          <th>First Name</th>
+          <td>{{ adminProfile.firstName }}</td>
+        </tr>
+        <tr>
+          <th>Last Name</th>
+          <td>{{ adminProfile.lastName }}</td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td>{{ adminProfile.email }}</td>
+        </tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<ng-template *ngIf="errorMessage !== '' && !adminProfile">
+  <loading message="Profile Loading"></loading>
+</ng-template>
