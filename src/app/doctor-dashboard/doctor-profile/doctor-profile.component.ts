@@ -9,7 +9,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {MatIconModule} from '@angular/material/icon';
 import {LoadingComponent} from '../../loading/loading.component';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {UsersharedService} from '../../services/login/usershared.service';
 
 
@@ -21,14 +20,13 @@ import {UsersharedService} from '../../services/login/usershared.service';
     MatCardModule,
     MatDividerModule,
     MatProgressSpinner,
-    MatIconModule, LoadingComponent, ReactiveFormsModule,],
+    MatIconModule, LoadingComponent],
   templateUrl: './doctor-profile.component.html',
   styleUrls: ['./doctor-profile.component.css']
 })
 
 export class DoctorProfileComponent implements OnInit {
   doctorProfile?: Doctor;
-  doctorProfileForm: FormGroup;
   doctorid:number = -1;
   userid:number=-1;
   private _errorMessage: string = '';
@@ -54,17 +52,7 @@ export class DoctorProfileComponent implements OnInit {
     }
   }
 
-  constructor(private doctorService: DoctorService,private usersharedservice:UsersharedService,private doctorDashboard: DoctorDashboardComponent,private fb: FormBuilder) {
-    this.doctorProfileForm = this.fb.group({
-      firstName: [''],
-      lastName: [''],
-      email: ['',[Validators.email]],
-      specialization: [''],
-      phone: ['', [Validators.pattern('^\\+?[0-9]{10,15}$')]],
-      availableDays: [''],
-        availableFrom: [''],
-        availableUntil: ['']
-    });
+  constructor(private doctorService: DoctorService,private usersharedservice:UsersharedService,private doctorDashboard: DoctorDashboardComponent) {
   }
 
   ngOnInit(): void {

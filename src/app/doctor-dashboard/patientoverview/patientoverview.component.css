@@ -1,9 +1,24 @@
 
 
+.mat-list-item {
+  cursor: pointer;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+  border-radius: 0;
+}
+
+.selected-tab {
+  background-color: #411864; /* Light blue */
+}
+.selected-tabfont{
+  color: white;
+}
+.mat-list-item:hover {
+  background-color: #6b527a; /* Slightly lighter blue for hover */
+}
 
 mat-sidenav {
   background-color: white;
-  border-radius: 0px;
   width: 20%;
 }
 
@@ -12,8 +27,13 @@ mat-sidenav-content {
   padding: 0;
   background:white;
 }
+
 .nav-label-content {
   color:black;
+  border-top-right-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
   margin-top:9px;
 }
 
@@ -30,11 +50,7 @@ mat-sidenav-content {
   margin-top: -4px; /* Close any tiny gap caused by rendering */
 }
 
-/*::ng-deep .mat-mdc-tab-ripple {*/
-/*  background: #401863;*/
-/*  box-shadow: none;*/
-/*  border:none;*/
-/*}*/
+
 .back-button{
   position: absolute;
   z-index: 0;
@@ -80,7 +96,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #34495e; /* Slightly darker blue on hover */
+  background-color: #4a3060; /* Slightly darker blue on hover */
 }
 
 /* Patient Card Styling */
@@ -814,6 +830,7 @@ mat-tab-group {
   font-size: 0.875rem;
   margin-top: 5px;
 }
+
 .error-message {
   color: red;
   font-size: 14px;

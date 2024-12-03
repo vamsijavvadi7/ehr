@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit{
     if (value) {
       // Clear any existing timeout to avoid multiple timers
       clearTimeout(this.timeoutHandle);
-
       // Set a timeout to clear the message after 4 seconds
       this.timeoutHandle = setTimeout(() => {
         this._errorMessage = '';
@@ -43,19 +42,22 @@ export class LoginComponent implements OnInit{
     }
   }
   constructor(private loginservice: LoginService, private router: Router,private fb: FormBuilder,private userservice:UsersharedService) {
-
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
-
   }
   ngOnInit(): void {
-
     if(this.userservice.getCurrentUser()!=undefined){
-     this.router.navigateByUrl('/doctordashboard');
+      if(this.userservice.getCurrentUser()!.role=="doctor")
+      {
+        this.router.navigateByUrl('/doctordashboard');
+      }
+      else if (this.userservice.getCurrentUser()!.role=="admin")
+      {
+        this.router.navigateByUrl('/admin-dashboard');
+      }
     }
-
   }
 
 
@@ -68,21 +70,25 @@ export class LoginComponent implements OnInit{
             // Handle successful user retrieval
             this.user=response;
             this.userservice.setUser(this.user);
-
             if (this.user.role === 'doctor') {
               this.router.navigate(['/doctordashboard']);
-            } else {
+            }
+            else if(this.user.role === 'admin') {
+              this.router.navigate(['/admin-dashboard']);
+            }
+            else {
               this.errorMessage='incorrect credentials';
             }
         },
         error: (err) => {
-          this.errorMessage='Failed to get user details try again'
+          if(err.status==401)
+            this.errorMessage='User has been removed'
+          else
+            this.errorMessage='Failed to get user details try again'
         }
       });
     } else {
       this.errorMessage='Please enter a valid email and password';
     }
   }
-
-
 }

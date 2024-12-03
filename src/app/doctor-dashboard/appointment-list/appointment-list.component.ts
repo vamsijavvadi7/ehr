@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DoctorService } from '../../services/doctor.service';
 import { Appointment } from '../../services/interfaces/doctorappointment.interface';
@@ -37,13 +37,15 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
   showPatientOverview: boolean = false;
   appointmentsLoaded: boolean = true;
   filteredAppointments: Appointment[] = [];
-  selectedStatus: string = 'All';
+  selectedStatus: string = 'Scheduled';
   user: User | null | undefined;
   private subscriptions = new Subscription();
   private doctorProfile!: Doctor;
   private doctorprofileloaded: boolean=false;
   private _errorMessage: string = '';
   @ViewChild(PatientoverviewComponent) patientOverview!: PatientoverviewComponent;
+
+
   timeoutHandle: any;
 
   // Getter for errorMessage
@@ -76,15 +78,18 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
     this.user=this.usersharedservice.getCurrentUser();
     this.doctorprofileloaded=false;
     // @ts-ignore
-    this.doctorService.getDoctorProfile(this.user.id).subscribe({
-      next: (profile) => {
-        this.doctorProfile = profile;
-       this.doctorprofileloaded=true;
-      },
-      error: (err) => {
-        this.errorMessage='Failed to fetch your profile, Sorry doctor!';
-      }
-    });
+    if(this.user!=null) {
+      // @ts-ignore
+      this.doctorService.getDoctorProfile(this.user.id).subscribe({
+        next: (profile) => {
+          this.doctorProfile = profile;
+          this.doctorprofileloaded = true;
+        },
+        error: (err) => {
+          this.errorMessage = 'Failed to fetch your profile, Sorry doctor!';
+        }
+      });
+    }
     // Get today's date in 'YYYY-MM-DD' format
     const today = new Date();
     // Set form with dynamic date and default start/end times
@@ -145,10 +150,12 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
                 );
               }
             });
+
             this.filteredAppointments = [...this.appointments];
+            this.filterAppointments();
             setTimeout(() => {
               this.appointmentsLoaded = true;
-            }, 2000);
+            }, 3000);
 
           },
           error: (err) => {

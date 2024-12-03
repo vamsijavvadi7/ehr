@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import { DoctorProfileComponent } from './doctor-profile/doctor-profile.component';
 import { AppointmentListComponent } from './appointment-list/appointment-list.component';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,7 @@ import {EditDoctorProfileComponent} from './edit-doctor-profile/edit-doctor-prof
 import {UsersharedService} from '../services/login/usershared.service';
 import {Router} from '@angular/router';
 import {User} from '../services/interfaces/loginInterface/user.interface';
+import {AppointmentService} from '../services/patientoverview/appointmentshare.service';
 @Component({
   selector: 'app-doctor-dashboard',
   standalone: true,
@@ -25,9 +26,7 @@ export class DoctorDashboardComponent implements OnInit{
   @ViewChild(AppointmentListComponent) appointmentListComponent!: AppointmentListComponent;
 
 
-  constructor(private usersharedservice:UsersharedService,
-   private router: Router  // Inject FormBuilder for form creation
-  ) {}
+  constructor(private usersharedservice:UsersharedService, private router: Router,private appointmentshareservice:AppointmentService  ) {}
 
   ngOnInit(): void {
     this.user=this.usersharedservice.getCurrentUser();
@@ -62,7 +61,14 @@ export class DoctorDashboardComponent implements OnInit{
 
   logOut() {
     this.usersharedservice.clearUser();
-    this.appointmentListComponent.triggerBackButtonClick();
+    if(!this.showDoctorProfile && !this.editDoctorProfile)
+      this.appointmentListComponent.triggerBackButtonClick();
+    else
+      this.appointmentshareservice.setShowPatientOverview(false);
+    this.showDoctorProfile=false;
+    this.editDoctorProfile=false;
     this.router.navigate(['login']);
   }
 }
+
+

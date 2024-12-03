@@ -55,16 +55,16 @@
       <option value="Completed">Completed</option>
     </select>
   </div>
-   <div class="appointments-container">
-    <div class="appointment-card" *ngFor="let appointment of filteredAppointments" (click)="viewAppointmentDetails(appointment)">
+   <div class="appointments-container" *ngIf="appointmentsLoaded" >
+    <div class="appointment-card" *ngFor="let appointment of filteredAppointments"  (click)="viewAppointmentDetails(appointment)">
       <div class="appointment-card-header">
-        <h3 class="appointment-id" >{{ appointment.patient?.firstName | titlecase }} {{ appointment.patient?.lastName | titlecase }}</h3>
-        <span class="appointment-status" [ngClass]="appointment?.status">
-          {{ appointment?.status }}
+        <h3 class="appointment-id" >{{ appointment.patient!.firstName | titlecase }} {{ appointment.patient!.lastName | titlecase }}</h3>
+        <span class="appointment-status" [ngClass]="appointment!.status">
+          {{ appointment!.status }}
         </span>
       </div>
       <div class="appointment-details">
-        <p><strong>Appointment Time:</strong> {{ appointment?.appointmentTime | date: 'short' }}</p>
+        <p><strong>Appointment Time:</strong> {{ appointment!.appointmentTime | date: 'short' }}</p>
       </div>
      </div>
     </div>

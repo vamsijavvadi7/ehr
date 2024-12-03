@@ -10,7 +10,6 @@ import {Appointment} from './interfaces/doctorappointment.interface';
 })
 export class DoctorService {
   private apiUrl = 'http://localhost:8764/doctorservice';  // Base API URL
-  //private apiUrl = 'http://localhost:8001';  // Base API URL
 
   constructor(private http: HttpClient) {}
 
@@ -25,14 +24,11 @@ export class DoctorService {
   // Fetch doctor's appointments using GET with query params
 
   getDoctorAppointments(doctorId: number, date: string, startTime: string, endTime: string):Observable<Appointment[]> {
-
-
     const params = new HttpParams()
       .set('doctorId', doctorId.toString())
       .set('date', date)  // format: 'yyyy-MM-dd'
       .set('startTime', startTime)  // format: 'HH:mm'
       .set('endTime', endTime);  // format: 'HH:mm'
-
     return this.http.get<Appointment[]>(`${this.apiUrl}/doctor/appointments`, { params });
   }
 

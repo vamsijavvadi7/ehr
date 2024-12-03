@@ -34,6 +34,7 @@ export class PatientoverviewService {
   addFamilyHistory(familyHistoryData: Partial<FamilyHistory>): Observable<FamilyHistory> {
     const url = `${this.apiUrl}/doctorviewpatientdetails/familyHistory`;
 
+
     return new Observable<FamilyHistory>((observer) => {
       fetch(url, {
         method: 'POST',

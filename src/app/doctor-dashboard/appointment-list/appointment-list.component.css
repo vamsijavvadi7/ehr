@@ -139,14 +139,14 @@ button.mat-raised-button:hover {
 
 .appointment-details p {
   margin: 0;
-  font-size: 14px;
+  font-size: 18px;
   color: #555;
 }
 
 /* No appointments message */
 .no-appointments-message {
   text-align: center;
-  font-size: 18px;
+  font-size: 19px;
   color: #555;
 }
 
@@ -154,6 +154,9 @@ button.mat-raised-button:hover {
 @media (max-width: 768px) {
   .appointment-card {
     width: calc(50% - 16px); /* 2 cards per row on tablets */
+  }
+  .appointment-details p {
+    font-size: 17px;
   }
 }
 

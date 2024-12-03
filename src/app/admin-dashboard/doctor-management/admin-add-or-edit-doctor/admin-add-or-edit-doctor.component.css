@@ -1,0 +1,154 @@
+.error-message {
+  color: red;
+  font-size: 14px;
+  padding: 10px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+/* Header styling */
+.profile-header {
+  font-size: 36px;
+  color: #3C1868; /* Elegant, professional purple */
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+  line-height: 1.4;
+}
+
+.profile-card {
+  max-width: 60vw;
+  min-height: 60vh;
+  padding: 40px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  font-family: 'Roboto', sans-serif; /* Professional font */
+}
+
+/* Back button styling */
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #5D2A9D; /* Rich purple for professional feel */
+  font-size: 24px;
+  border-radius: 50%;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #f0f0f0;
+}
+
+
+.profile-edit-form {
+  margin: 20px auto;
+  width: 100%;
+  max-width: 600px;
+}
+
+.profile-edit-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-edit-group-horizontal {
+  display: flex;
+  gap: 16px;
+}
+
+.profile-edit-input {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-edit-label {
+  font-weight: bold;
+  color: #411864;
+  margin-bottom: 8px;
+}
+
+.profile-edit-input-field {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #34495e;
+}
+
+.profile-edit-input-field:focus {
+  border-color: #2980b9;
+  outline: none;
+  box-shadow: 0 0 5px rgba(41, 128, 185, 0.5);
+}
+
+.error-message {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.formsubmitted-message {
+  color: green;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.profile-submit-btn {
+  margin-top: 20px;
+  width: 100%;
+  font-size: 1rem;
+  text-transform: uppercase;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background-color: #411864;
+  padding: 12px 24px;
+  color: white;
+  font-weight: bold;
+}
+
+
+.profile-submit-btn:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media screen and (max-width: 768px) {
+  .profile-edit-group-horizontal {
+    flex-direction: column;
+  }
+}
+
+
+.days-selection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.day-button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.day-button.selected {
+  background-color: #411864;
+  color: white;
+  border-color: #2980b9;
+}
+
+.day-button:hover {
+  background-color: #dceeff;
+}
+

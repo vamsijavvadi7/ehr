@@ -63,7 +63,6 @@ export class PatientoverviewComponent implements OnInit, OnDestroy {
   familyHistoryForm: FormGroup;
   prescriptionForm: FormGroup;
   diagnosisForm: FormGroup;
-
   visitNotesForm: FormGroup;
 
 
@@ -236,6 +235,7 @@ export class PatientoverviewComponent implements OnInit, OnDestroy {
   }
 
   submitFamilyHistory(): void {
+    console.log("hi");
     const patientId = this.selectedAppointment?.patientId;
     if (patientId) {
       const familyHistoryData = {

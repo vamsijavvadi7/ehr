@@ -12,30 +12,30 @@
       </div>
       </mat-list-item>
 
-      <mat-list-item (click)="selectTab(0)" >
+      <mat-list-item (click)="selectTab(0)"  [ngClass]="{'selected-tab': activeTab === 0}" class="nav-label-content">
         <div class="nav-label-content">
-         {{ capitalizeEachWord(patientDetails?.firstName + " " + patientDetails?.lastName)}} <br>
-        {{ selectedAppointment?.appointmentTime | date: 'short' }}
+          <p [ngClass]="{'selected-tabfont': activeTab === 0}">{{ capitalizeEachWord(patientDetails?.firstName + " " + patientDetails?.lastName)}} <br>
+            {{ selectedAppointment?.appointmentTime | date: 'short'  }}</p>
         </div>
       </mat-list-item>
-      <mat-list-item (click)="selectTab(1)" class="nav-label-content">
+      <mat-list-item (click)="selectTab(1)" [ngClass]="{'selected-tab': activeTab === 1}" class="nav-label-content">
         <div class="nav-label-content">
-        Family History
+          <p [ngClass]="{'selected-tabfont': activeTab === 1}"> Family History</p>
         </div>
       </mat-list-item>
-      <mat-list-item (click)="selectTab(2)" class="nav-label-content">
+      <mat-list-item (click)="selectTab(2)" [ngClass]="{'selected-tab': activeTab === 2}" class="nav-label-content">
         <div class="nav-label-content">
-        Prescriptions
+          <p [ngClass]="{'selected-tabfont': activeTab === 2}">Prescriptions</p>
         </div>
       </mat-list-item>
-      <mat-list-item (click)="selectTab(3)" class="nav-label-content">
+      <mat-list-item (click)="selectTab(3)" [ngClass]="{'selected-tab': activeTab === 3}" class="nav-label-content">
         <div class="nav-label-content">
-        Diagnoses
+          <p [ngClass]="{'selected-tabfont': activeTab === 3}">Diagnoses</p>
         </div>
       </mat-list-item>
-      <mat-list-item (click)="selectTab(4)" class="nav-label-content">
+      <mat-list-item (click)="selectTab(4)" [ngClass]="{'selected-tab': activeTab === 4}" class="nav-label-content">
         <div class="nav-label-content">
-          Patient Visit Info
+          <p [ngClass]="{'selected-tabfont': activeTab === 4}">Patient Visit Info</p>
         </div>
       </mat-list-item>
     </mat-nav-list>
@@ -95,8 +95,8 @@
                 type="text"
                 placeholder="Enter Condition"
                 class="familyhistory-input-field" />
-              <div *ngIf="familyHistoryForm.get('condition')?.hasError('required') && familyHistoryForm.get('condition')?.touched">
-                <small class="error-message">Condition is required.</small>
+              <div *ngIf="familyHistoryForm.get('condition')?.hasError('required') && familyHistoryForm.get('condition')?.touched" class="error-message">
+                <small >Condition is required.</small>
               </div>
             </div>
 
@@ -109,15 +109,15 @@
                 type="text"
                 placeholder="Enter Relationship"
                 class="familyhistory-input-field" />
-              <div *ngIf="familyHistoryForm.get('relationship')?.hasError('required') && familyHistoryForm.get('relationship')?.touched">
-                <small class="error-message">Relationship is required.</small>
+              <div *ngIf="familyHistoryForm.get('relationship')?.hasError('required') && familyHistoryForm.get('relationship')?.touched" class="error-message">
+                <small >Relationship is required.</small>
               </div>
             </div>
           </div>
           <div class="submit-button-content">
             <button
               type="submit"
-              [disabled]="visitNotesForm.invalid"
+              [disabled]="familyHistoryForm.invalid"
               class="familyhistory-submit-btn">
               Add Family History
             </button>
@@ -132,6 +132,10 @@
             </tr>
             </thead>
             <tbody>
+            <tr *ngIf="familyHistory.length==0">
+              <td>No Previous Family History Available</td>
+              <td></td>
+            </tr>
             <tr *ngFor="let history of familyHistory">
               <td>{{ capitalizeEachWord(history.condition) }}</td>
               <td>{{ capitalizeEachWord(history.relationship) }}</td>
@@ -164,8 +168,8 @@
                 type="text"
                 placeholder="Enter Medication Name"
                 class="prescription-input-field" />
-              <div *ngIf="prescriptionForm.get('medicationName')?.hasError('required') && prescriptionForm.get('medicationName')?.touched">
-                <small class="error-message">Medication Name is required.</small>
+              <div *ngIf="prescriptionForm.get('medicationName')?.hasError('required') && prescriptionForm.get('medicationName')?.touched" class="error-message">
+                <small>Medication Name is required.</small>
               </div>
             </div>
 
@@ -179,8 +183,8 @@
                 placeholder="Enter Dosage"
                 class="prescription-input-field" />
             </div>
-            <div *ngIf="prescriptionForm.get('dosage')?.hasError('required') && prescriptionForm.get('dosage')?.touched">
-              <small class="error-message">Dosage is required.</small>
+            <div *ngIf="prescriptionForm.get('dosage')?.hasError('required') && prescriptionForm.get('dosage')?.touched" class="error-message">
+              <small >Dosage is required.</small>
             </div>
 
 
@@ -215,6 +219,14 @@
         <div class="precription-container">
           <h2 class="prescription-header">Prescription Information</h2>
           <mat-accordion class="prescription-accordion">
+            <mat-expansion-panel class="accordion-panel" *ngIf="prescriptions.length==0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  No Previous Prescriptions Available
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+            </mat-expansion-panel>
+
             <mat-expansion-panel class="accordion-panel" *ngFor="let prescription of prescriptions">
               <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -254,8 +266,8 @@
                   type="text"
                   placeholder="Enter Condition"
                   class="diagnosis-input-field" />
-                <div *ngIf="diagnosisForm.get('condition')?.hasError('required') && diagnosisForm.get('condition')?.touched">
-                  <small class="error-message">Condition is required.</small>
+                <div *ngIf="diagnosisForm.get('condition')?.hasError('required') && diagnosisForm.get('condition')?.touched" class="error-message">
+                  <small >Condition is required.</small>
                 </div>
               </div>
 
@@ -269,9 +281,7 @@
                   placeholder="Enter Symptoms"
                   class="diagnosis-input-field" />
               </div>
-            </div>
 
-            <div class="diagnosis-input-group">
               <!-- Notes Input -->
               <div class="diagnosis-input">
                 <label for="diagnosticNotes" class="diagnosis-label">Diagnostic Notes</label>
@@ -280,8 +290,8 @@
                   formControlName="diagnosticNotes"
                   placeholder="Enter Diagnostic Notes"
                   class="diagnosis-input-field"></textarea>
-                <div *ngIf="diagnosisForm.get('diagnosticNotes')?.hasError('required') && diagnosisForm.get('diagnosticNotes')?.touched">
-                  <small class="error-message">DiagnosticNotes is required.</small>
+                <div *ngIf="diagnosisForm.get('diagnosticNotes')?.hasError('required') && diagnosisForm.get('diagnosticNotes')?.touched" class="error-message">
+                  <small >DiagnosticNotes is required.</small>
                 </div>
               </div>
             </div>
@@ -294,6 +304,16 @@
           <div class="diagnosis-container">
             <h2 class="diagnosis-header">Diagnosis Information</h2>
             <mat-accordion class="diagnosis-accordion">
+              <mat-expansion-panel class="accordion-panel" *ngIf="diagnoses.length==0">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    No Previous Diagnosis Available
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+              </mat-expansion-panel>
+
+
+
               <mat-expansion-panel class="accordion-panel" *ngFor="let diagnosis of diagnoses">
                 <mat-expansion-panel-header>
                   <mat-panel-title>
@@ -371,8 +391,8 @@
                 formControlName="notes"
                 placeholder="Enter detailed visit notes"
                 class="appointment-input-field"></textarea>
-              <div *ngIf="visitNotesForm.get('notes')?.hasError('required') && visitNotesForm.get('notes')?.touched">
-                <small class="error-message">Notes are required.</small>
+              <div *ngIf="visitNotesForm.get('notes')?.hasError('required') && visitNotesForm.get('notes')?.touched" class="error-message">
+                <small >Notes are required.</small>
               </div>
             </div>
           </div>
