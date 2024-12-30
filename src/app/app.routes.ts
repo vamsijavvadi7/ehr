@@ -8,6 +8,14 @@ import {LoadingComponent} from './loading/loading.component';
 import {AdminProfileComponent} from './admin-dashboard/admin-profile/admin-profile.component';
 import {EditAdminProfileComponent} from './admin-dashboard/edit-admin-profile/edit-admin-profile.component';
 import {DoctorManagementComponent} from './admin-dashboard/doctor-management/doctor-management.component';
+import {PatientRecordsComponent} from './admin-dashboard/patient-records-management/patient-records.component';
+import {
+  AdminAddOrEditDoctorComponent
+} from './admin-dashboard/doctor-management/admin-add-or-edit-doctor/admin-add-or-edit-doctor.component';
+import {AdminManagementComponent} from './admin-dashboard/admin-management/admin-management.component';
+import {
+  AppointmentSchedulingComponent
+} from './admin-dashboard/appointment-scheduling/appointment-scheduling.component';
 
 export const routes: Routes = [
   {
@@ -23,9 +31,13 @@ export const routes: Routes = [
     path: 'admin-dashboard',
     component: AdminDashboardComponent,
     children: [
+      { path: '', redirectTo: 'appointment-scheduling', pathMatch: 'full' },
       { path: 'admin-profile', component: AdminProfileComponent },
       { path: 'edit-admin-profile', component: EditAdminProfileComponent },
-      {path:'manage-doctors',component:DoctorManagementComponent}
+      {path:'manage-doctors',component:DoctorManagementComponent},
+      {path:'patient-records',component:PatientRecordsComponent},
+      {path:'manage-admins',component:AdminManagementComponent},
+      {path:'appointment-scheduling', component:AppointmentSchedulingComponent},
     ],
   },
 ];

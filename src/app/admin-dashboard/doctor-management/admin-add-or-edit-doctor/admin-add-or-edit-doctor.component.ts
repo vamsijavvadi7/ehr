@@ -120,12 +120,12 @@ export class AdminAddOrEditDoctorComponent implements OnInit {
       const doctordetails: any = {
         id:  this.mode=='edit'?this.doctorid:'',
         userid: this.mode=='edit'?this.userid:'',
-        email: '',
+        email: this.doctorProfileForm.value.email,
         firstName: this.doctorProfileForm.value.firstName,
         lastName: this.doctorProfileForm.value.lastName,
         specialization: this.doctorProfileForm.value.specialization,
         phone: this.doctorProfileForm.value.phone,
-        isActive:this.doctorProfile!.isActive,
+        isActive:this.mode=='edit'?this.doctorProfile!.isActive:true,
         availability: {
           availableDays: daysString,
           availableFrom: this.doctorProfileForm.value.availableFrom,
@@ -137,6 +137,7 @@ export class AdminAddOrEditDoctorComponent implements OnInit {
           next: (profile) => {
             this.doctorProfile = profile;
             this.formSubmittedMessage = 'Doctor Updated Successfully';
+            this.backToAdminPanel();
           },
           error: (err) => {
             this.errorMessage = 'Failed to update the doctor check the details before trying again';
@@ -148,7 +149,8 @@ export class AdminAddOrEditDoctorComponent implements OnInit {
           {
             next:(profile) => {
               this.doctorProfile = profile;
-              this.formSubmittedMessage = 'Doctor Updated Successfully';
+              this.formSubmittedMessage = 'Doctor added Successfully';
+              this.backToAdminPanel();
             },
             error:(err)=>{
               this.errorMessage='Failed to add the doctor check the details before trying again'
@@ -156,7 +158,7 @@ export class AdminAddOrEditDoctorComponent implements OnInit {
           }
         )
       }
-      this.backToAdminPanel();
+
     } else {
       this.errorMessage = 'Please correct the errors in the form before submitting.';
     }

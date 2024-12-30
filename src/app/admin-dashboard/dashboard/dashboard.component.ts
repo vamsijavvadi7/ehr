@@ -43,9 +43,9 @@ export class AdminDashboardComponent implements OnInit {
   setupDashboardCards(): void {
     this.dashboardCards = [
       { title: 'Doctor Management', description: 'Add, remove, or edit doctors', route: 'manage-doctors' },
-      { title: 'Patient Records', description: 'View and manage patient records', route: 'manage-patients' },
+      { title: 'Patient Records', description: 'View and manage patient records', route: 'patient-records' },
       { title: 'Admin Management', description: 'Add, remove, or edit other admins', route: 'manage-admins' },
-      { title: 'Appointment Scheduling', description: 'Book and manage patient appointments', route: 'manage-appointments' },
+      { title: 'Appointment Scheduling', description: 'Book and manage patient appointments', route: 'appointment-scheduling' },
     ];
   }
 

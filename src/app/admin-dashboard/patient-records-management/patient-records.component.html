@@ -1,0 +1,78 @@
+<div class="admin-panel">
+  <div class="header">
+    <h2>Patient Management</h2>
+    <button class="add-button" (click)="openAddPatientModal()">
+      <i class="fas fa-plus"></i> Add Patient
+    </button>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="filters">
+    <input
+      type="text"
+      class="search-bar"
+      placeholder="Search by name, email, address"
+      [(ngModel)]="searchQuery"
+      (input)="applyFilter()"
+    />
+  </div>
+
+  <!-- Data Table -->
+  <table class="data-table">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th (click)="sortBy('firstName')">Name</th>
+      <th (click)="sortBy('email')">Email</th>
+      <th (click)="sortBy('address')">Address</th>
+      <th >Phone</th>
+      <th >Status</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let patient of filteredPatients; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ patient.firstName }} {{ patient.lastName }}</td>
+      <td>{{ patient.email }}</td>
+      <td>{{ patient.address.street }}, {{ patient.address.city }}, {{ patient.address.state }}, {{ patient.address.postalCode }}</td>
+      <td>{{ patient.phone }}</td>
+      <td>
+          <span [class]="patient.isActive ? 'status-active' : 'status-inactive'">
+            {{ patient.isActive ? 'Active' : 'Inactive' }}
+          </span>
+      </td>
+      <td>
+        <i class="fas fa-edit" (click)="openEditPatientModal(patient)"></i>
+        <i class="fas fa-trash" (click)="deletePatient(patient.id)"></i>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="filteredPatients.length > 0">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+
+  <div *ngIf="filteredPatients.length === 0 && !isLoading" class="no-data">
+    No records found.
+  </div>
+
+  <div class="modal" tabindex="-1" *ngIf="isModalOpen">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ mode=='edit' ? 'Edit Patient' : 'Add Patient' }}</h5>
+          <button type="button" class="btn-close" (click)="closeModal()">Close</button>
+        </div>
+        <div class="modal-body">
+           <admin-add-or-edit-patient [mode]="mode" [patient]="editPatient" (backToAdminPanelClicked)="handleChildEvent()">
+           </admin-add-or-edit-patient>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

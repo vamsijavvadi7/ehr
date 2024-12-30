@@ -60,7 +60,7 @@ export class AdminProfileComponent implements OnInit {
   ngOnInit(): void {
     this.userid = this.userSharedService.getCurrentUser()!.id;
 
-    this.adminService.getAdminProfile(this.userid).subscribe({
+    this.adminService.getAdminByUserId(this.userid).subscribe({
       next: (profile) => {
         this.adminProfile = profile;
       },

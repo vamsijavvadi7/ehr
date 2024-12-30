@@ -17,7 +17,8 @@
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "src/window-global-fix.ts"
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
@@ -84,8 +85,9 @@
           "options": {
             "polyfills": [
               "zone.js",
-              "zone.js/testing"
-            ],
+              "zone.js/testing",
+
+              ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               {

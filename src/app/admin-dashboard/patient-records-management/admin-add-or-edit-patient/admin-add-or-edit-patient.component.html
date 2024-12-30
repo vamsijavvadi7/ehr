@@ -6,20 +6,16 @@
     <div *ngIf="formSubmittedMessage" class="formsubmitted-message">
       {{ formSubmittedMessage }}
     </div>
-    <!-- Back button -->
-<!--    <button mat-icon-button color="primary" (click)="backToAdminPanel()" class="back-button">-->
-<!--      <mat-icon>arrow_back</mat-icon>-->
-<!--    </button>-->
 
     <mat-card-content>
-      <form [formGroup]="doctorProfileForm" (ngSubmit)="submitDoctorProfile()" class="profile-edit-form">
+      <form [formGroup]="patientProfileForm" (ngSubmit)="submitPatientProfile()" class="profile-edit-form">
         <div class="profile-edit-group">
           <!-- First Name -->
           <div class="profile-edit-input">
             <label for="first-name" class="profile-edit-label">First Name</label>
             <input
               id="first-name"
-              formControlName="firstName"
+              formControlName="firstname"
               type="text"
               placeholder="Enter First Name"
               class="profile-edit-input-field" />
@@ -47,14 +43,40 @@
               class="profile-edit-input-field" />
           </div>
 
-          <!-- Specialization -->
           <div class="profile-edit-input">
-            <label for="specialization" class="profile-edit-label">Specialization</label>
+            <label for="street" class="profile-edit-label">Street</label>
             <input
-              id="specialization"
-              formControlName="specialization"
+              id="street"
+              formControlName="street"
               type="text"
-              placeholder="Enter Specialization"
+              placeholder="Enter Street Address"
+              class="profile-edit-input-field" />
+          </div>
+          <div class="profile-edit-input">
+            <label for="city" class="profile-edit-label">City</label>
+            <input
+              id="city"
+              formControlName="city"
+              type="text"
+              placeholder="Enter City"
+              class="profile-edit-input-field" />
+          </div>
+          <div class="profile-edit-input">
+            <label for="state" class="profile-edit-label">State</label>
+            <input
+              id="state"
+              formControlName="state"
+              type="text"
+              placeholder="Enter State"
+              class="profile-edit-input-field" />
+          </div>
+          <div class="profile-edit-input">
+            <label for="postalCode" class="profile-edit-label">PostalCode</label>
+            <input
+              id="postalCode"
+              formControlName="postalCode"
+              type="text"
+              placeholder="Enter PostalCode"
               class="profile-edit-input-field" />
           </div>
 
@@ -67,46 +89,6 @@
               type="tel"
               placeholder="Enter Phone Number"
               class="profile-edit-input-field" />
-          </div>
-
-          <!-- Availability -->
-          <h3 class="profile-availability-header">Availability</h3>
-
-          <!-- Days Available -->
-          <div class="profile-edit-input">
-            <label class="profile-edit-label">Days Available</label>
-            <div class="days-selection">
-              <button
-                *ngFor="let day of days"
-                type="button"
-                class="day-button"
-                [class.selected]="isDaySelected(day)"
-                (click)="toggleDaySelection(day)">
-                {{ day+"ss" }}
-              </button>
-            </div>
-          </div>
-
-
-          <!-- Time Availability -->
-          <div class="profile-edit-group-horizontal">
-            <div class="profile-edit-input">
-              <label for="available-from" class="profile-edit-label">Available From</label>
-              <input
-                id="available-from"
-                formControlName="availableFrom"
-                type="time"
-                class="profile-edit-input-field" />
-            </div>
-
-            <div class="profile-edit-input">
-              <label for="available-until" class="profile-edit-label">Available Until</label>
-              <input
-                id="available-until"
-                formControlName="availableUntil"
-                type="time"
-                class="profile-edit-input-field" />
-            </div>
           </div>
         </div>
 

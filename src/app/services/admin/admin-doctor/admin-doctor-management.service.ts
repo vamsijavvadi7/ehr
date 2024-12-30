@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {Doctor} from '../../interfaces/doctor-profile.interface';
+import {DatePipe} from '@angular/common';
+import {Doctorpersonalandappointment} from '../../interfaces/admin/doctorpersonalandappointment.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ export class AdminDoctorManagementService {
 
   private baseUrl = 'http://localhost:8764/admin/admin-doctor';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private datePipe:DatePipe) {}
 
   /**
    * Delete a doctor by ID.
@@ -57,6 +59,28 @@ export class AdminDoctorManagementService {
   }
 
   /**
+   * Get available doctors based on the provided availability details.
+   * @param dateParam
+   * @returns Observable with the list of available doctors.
+   */
+  getAvailableDoctorsByDate(dateParam: any): Observable<Doctorpersonalandappointment[]> {
+    // Format the dateParam in "MM-dd-yy" format
+    const formattedDate = this.datePipe.transform(dateParam, 'MM-dd-yy');
+
+    if (!formattedDate) {
+      throw new Error('Invalid date format');
+    }
+
+
+    return this.http.get<Doctorpersonalandappointment[]>(`${this.baseUrl}/availableDoctorsByDate`, {
+      params: {
+        dateParam: formattedDate
+      }
+    });
+  }
+
+
+  /**
    * Get available doctors profile
    * @param userid
    * @returns Observable with Doctor Profile.
@@ -64,7 +88,6 @@ export class AdminDoctorManagementService {
   getDoctorProfile(userid: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/userid/{userid}`);
   }
-
 
 
 }

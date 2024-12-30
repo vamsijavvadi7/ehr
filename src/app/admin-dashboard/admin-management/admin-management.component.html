@@ -1,0 +1,102 @@
+<div class="admin-panel">
+  <div class="header">
+    <h2>Admin Management</h2>
+    <button class="add-button" (click)="openAddAdminModal()">
+      <i class="fas fa-plus"></i> Add Admin
+    </button>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="filters">
+    <input
+      type="text"
+      class="search-bar"
+      placeholder="Search by name, email, address"
+      [(ngModel)]="searchQuery"
+      (input)="applyFilter()"
+    />
+  </div>
+
+  <!-- Data Table -->
+  <table class="data-table">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th (click)="sortBy('firstName')">
+        <div class="actions">
+          Name
+        </div>
+      </th>
+      <th (click)="sortBy('email')">
+        <div class="actions">
+        Email
+        </div>
+      </th>
+      <th>
+        <div class="actions">
+        Status
+        </div>
+      </th>
+      <th>
+        <div class="actions">
+        Edit
+        </div>
+      </th>
+      <th>
+        <div class="actions">
+        Delete
+        </div>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let admin of filteredAdmins; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ admin.firstName }} {{ admin.lastName }}</td>
+      <td>{{ admin.email }}</td>
+      <td>
+          <span [class]="admin.isActive ? 'status-active' : 'status-inactive'">
+            {{ admin.isActive ? 'Active' : 'Inactive' }}
+          </span>
+      </td>
+      <td>
+        <div class="actions">
+        <i class="fas fa-edit" (click)="openEditAdminModal(admin)"></i>
+        </div>
+
+      </td>
+      <td>
+        <div class="actions">
+          <i class="fas fa-trash" (click)="deleteAdmin(admin.id)"></i>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="pagination" *ngIf="filteredAdmins.length > 0">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">Prev</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+
+  <div *ngIf="filteredAdmins.length === 0 && !isLoading" class="no-data">
+    No records found.
+  </div>
+
+  <div class="modal" tabindex="-1" *ngIf="isModalOpen">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ mode=='edit' ? 'Edit Admin' : 'Add Admin' }}</h5>
+          <button type="button" class="btn-close" (click)="closeModal()">Close</button>
+        </div>
+        <div class="modal-body">
+           <admin-add-or-edit-admin [mode]="mode" [admin]="editAdmin" (backToAdminPanelClicked)="handleChildEvent()">
+           </admin-add-or-edit-admin>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

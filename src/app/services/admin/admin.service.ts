@@ -1,30 +1,74 @@
-
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {Appointment} from '../interfaces/doctorappointment.interface';
-import {Admin} from '../interfaces/admin/admin-profile.interface';
-
-// movie.service.ts
+import { Admin } from '../interfaces/admin/admin-profile.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
-  private apiUrl = 'http://localhost:8764/admin';
+  private apiUrl = 'http://localhost:8764/admin/admins'; // Base URL for admin-related API calls
 
   constructor(private http: HttpClient) {}
 
-  // Fetch doctor profile by doctorId
-  getAdminProfile(userId: number): Observable<Admin> {
-    return this.http.get(`${this.apiUrl}/admins/userid/${userId}`) as Observable<Admin>;
+  /**
+   * Create a new admin.
+   * @param admin - Admin details to be created
+   * @returns Observable of the created Admin object
+   */
+  createAdmin(admin: Admin): Observable<Admin> {
+    return this.http.post<Admin>(`${this.apiUrl}/createAdmin`, admin);
   }
 
-  updateAdminProfile(Admin:Admin): Observable<any> {
-    return this.http.put(`${this.apiUrl}/admins/update`, Admin) as Observable<any>;
+  /**
+   * Get all admins.
+   * @returns Observable of the list of all Admin objects
+   */
+  getAllAdmins(): Observable<Admin[]> {
+    return this.http.get<Admin[]>(`${this.apiUrl}/getAllAdmins`);
   }
 
-  // getDoctorAppointments(doctorId: number, date: string, startTime: string, endTime: string):Observable<Appointment[]> {
+  /**
+   * Get admin by User ID.
+   * @param userId - User ID of the admin
+   * @returns Observable of the Admin object
+   */
+  getAdminByUserId(userId: number): Observable<Admin> {
+    return this.http.get<Admin>(`${this.apiUrl}/userid/${userId}`);
+  }
+
+  /**
+   * Get admin by Admin ID.
+   * @param adminId - ID of the admin
+   * @returns Observable of the Admin object
+   */
+  getAdminById(adminId: number): Observable<Admin> {
+    return this.http.get<Admin>(`${this.apiUrl}/getAdminById/${adminId}`);
+  }
+
+  /**
+   * Update admin information.
+   * @param admin - Updated Admin details
+   * @returns Observable of the updated Admin object
+   */
+  updateAdmin(admin: Admin): Observable<Admin> {
+    return this.http.put<Admin>(`${this.apiUrl}/update`, admin);
+  }
+
+  /**
+   * Delete an admin by ID.
+   * @param adminId - ID of the admin to delete
+   * @returns Observable of any response
+   */
+  deleteAdmin(adminId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${adminId}`);
+  }
+
+
+
+
+
+// getDoctorAppointments(doctorId: number, date: string, startTime: string, endTime: string):Observable<Appointment[]> {
   //   const params = new HttpParams()
   //     .set('doctorId', doctorId.toString())
   //     .set('date', date)  // format: 'yyyy-MM-dd'

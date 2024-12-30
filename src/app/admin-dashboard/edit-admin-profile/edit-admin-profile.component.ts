@@ -63,7 +63,7 @@ export class EditAdminProfileComponent implements OnInit {
       this.router.navigate(['login'])
     }
 
-    this.adminService.getAdminProfile(this.user!.id).subscribe({
+    this.adminService.getAdminByUserId(this.user!.id).subscribe({
       next: (profile) => {
         this.admin=profile;
         this.adminProfileForm.patchValue({
@@ -89,7 +89,7 @@ export class EditAdminProfileComponent implements OnInit {
         lastName: this.adminProfileForm.value.lastName,
       };
 
-      this.adminService.updateAdminProfile(updatedProfile).subscribe({
+      this.adminService.updateAdmin(updatedProfile).subscribe({
         next: () => {
           this.formSubmittedMessage = 'Profile updated successfully!';
         },

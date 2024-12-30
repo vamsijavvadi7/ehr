@@ -8,6 +8,9 @@ import {UsersharedService} from '../services/login/usershared.service';
 import {Router} from '@angular/router';
 import {User} from '../services/interfaces/loginInterface/user.interface';
 import {AppointmentService} from '../services/patientoverview/appointmentshare.service';
+import {ToastrModule, ToastrService} from 'ngx-toastr';
+import SockJs from 'sockjs-client';
+import * as Stomp from 'stompjs';
 @Component({
   selector: 'app-doctor-dashboard',
   standalone: true,
@@ -19,6 +22,8 @@ import {AppointmentService} from '../services/patientoverview/appointmentshare.s
   styleUrls: ['./doctor-dashboard.component.css']
 })
 export class DoctorDashboardComponent implements OnInit{
+  socketClient:any=null;
+  stompClient!: Stomp.Client;
   isProfileMenuVisible: boolean = false;  // Controls visibility of the profile menu
   showDoctorProfile: boolean = false;     // Controls visibility of doctor profile
   editDoctorProfile: boolean = false;
@@ -26,17 +31,30 @@ export class DoctorDashboardComponent implements OnInit{
   @ViewChild(AppointmentListComponent) appointmentListComponent!: AppointmentListComponent;
 
 
-  constructor(private usersharedservice:UsersharedService, private router: Router,private appointmentshareservice:AppointmentService  ) {}
+
+  constructor(private usersharedservice:UsersharedService, private toasterService:ToastrService, private router: Router,private appointmentshareservice:AppointmentService  ) {}
 
   ngOnInit(): void {
     this.user=this.usersharedservice.getCurrentUser();
     if(this.user == null){
       this.router.navigate(['login'])
     }
-}
+  }
   // Function to toggle the profile menu visibility
   toggleProfileMenu(): void {
     this.isProfileMenuVisible = !this.isProfileMenuVisible;
+    let socket=new SockJs('http://localhost:8001/ws');
+
+
+    this.stompClient = Stomp.over(socket);
+
+    this.stompClient.connect({}, () => {
+      console.log('WebSocket connected');
+      this.stompClient.subscribe('/user/1/doctor/appointments', (message) => {
+        console.log('Received appointment notification:', message.body);
+      this.toasterService.success(message.body+"scsc");
+      });
+    });
   }
 
   // Function to view doctor profile
