@@ -98,14 +98,15 @@ export class AdminAddOrEditPatientComponent implements OnInit {
         firstName: this.patientProfileForm.value.firstName,
         lastName: this.patientProfileForm.value.lastName,
         phone: this.patientProfileForm.value.phone,
-        isActive:this.patientProfile!.isActive,
+        isActive:this.patientProfile?.isActive?this.patientProfile?.isActive:true,
         address:{
-          street: this.patientProfileForm.value.address.street,
-          city: this.patientProfileForm.value.address.city,
-          state: this.patientProfile.address.state,
-          postalCode: this.patientProfile.address.postalCode,
+          street: this.patientProfileForm.value.street,
+          city: this.patientProfileForm.value.city,
+          state: this.patientProfileForm.value.state,
+          postalCode: this.patientProfileForm.value.postalCode,
         }
       };
+
       if(this.mode=='edit') {
         this.adminPatientService.updatePatient(patientdetails).subscribe({
           next: (profile) => {
