@@ -9,6 +9,7 @@ import {Appointment} from './interfaces/doctorappointment.interface';
   providedIn: 'root'
 })
 export class DoctorService {
+
   private apiUrl = 'http://localhost:8764/doctorservice';  // Base API URL
 
   constructor(private http: HttpClient) {}

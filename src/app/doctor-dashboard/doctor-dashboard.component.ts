@@ -11,6 +11,7 @@ import {AppointmentService} from '../services/patientoverview/appointmentshare.s
 import {ToastrModule, ToastrService} from 'ngx-toastr';
 import SockJs from 'sockjs-client';
 import * as Stomp from 'stompjs';
+import {Appointment} from '../services/interfaces/doctorappointment.interface';
 @Component({
   selector: 'app-doctor-dashboard',
   standalone: true,
@@ -39,10 +40,7 @@ export class DoctorDashboardComponent implements OnInit{
     if(this.user == null){
       this.router.navigate(['login'])
     }
-  }
-  // Function to toggle the profile menu visibility
-  toggleProfileMenu(): void {
-    this.isProfileMenuVisible = !this.isProfileMenuVisible;
+
     let socket=new SockJs('http://localhost:8001/ws');
 
 
@@ -50,11 +48,42 @@ export class DoctorDashboardComponent implements OnInit{
 
     this.stompClient.connect({}, () => {
       console.log('WebSocket connected');
-      this.stompClient.subscribe('/user/1/doctor/appointments', (message) => {
-        console.log('Received appointment notification:', message.body);
-      this.toasterService.success(message.body+"scsc");
+      this.stompClient.subscribe(`/user/2/doctor/appointments`, (message) => {
+        // Parse the JSON message body
+        const msg = JSON.parse(message.body);
+        // Cast the parsed object to the Appointment type
+        const appointment: Appointment = msg as Appointment;
+        const dateTimeString =appointment.appointmentTime;
+
+        // Create a Date object
+        const dateObject = new Date(dateTimeString);
+
+        // Extract and format the date
+        const formattedDate = dateObject.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long', // Full month name
+          day: 'numeric',
+        });
+
+// Extract and format the time in 12-hour clock
+        const formattedTime = dateObject.toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: true,
+        });
+
+// Combine the formatted date and time
+        const formattedDateTime = `${formattedDate}, ${formattedTime}`;
+
+
+        this.toasterService.success("New Appointment with "+appointment.patient.firstName+" "+appointment.patient.lastName+" "+formattedDateTime);
       });
     });
+  }
+  // Function to toggle the profile menu visibility
+  toggleProfileMenu(): void {
+    this.isProfileMenuVisible = !this.isProfileMenuVisible;
+
   }
 
   // Function to view doctor profile

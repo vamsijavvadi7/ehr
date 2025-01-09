@@ -130,6 +130,7 @@ export class AppointmentSchedulingComponent implements OnInit{
         }
         // Check if the slot is already booked
         if (this.isSlotBooked(date, slotTime)) {
+          console.log("skipped"+slotTime+date);
           continue;
         }
 
@@ -143,10 +144,10 @@ export class AppointmentSchedulingComponent implements OnInit{
   isSlotBooked(date: string, time: string): boolean {
     // Check if any appointment matches the provided date and time
     return this.selectedDoctor.appointment.some(appointment => {
-      const appointmentDate = new Date(appointment.appointmentTime); // Convert to Date object
+      const appointmentDate = appointment.appointmentTime.split('T')[0] // Convert to Date object
       const appointmentTime = appointment.appointmentTime.split('T')[1].slice(0, 5);
       // Compare normalized date and time
-      const isDateMatching = appointmentDate.toISOString().split('T')[0] === date;
+      const isDateMatching = appointmentDate === date;
       const isTimeMatching = appointmentTime === time;
 
       return isDateMatching && isTimeMatching;
@@ -197,6 +198,7 @@ export class AppointmentSchedulingComponent implements OnInit{
 
     );
   }
+
   createLocalDateTime(appointmentDate: string, slotTime: string): string {
     // Split the appointment date into components
     const [month, day, year] = appointmentDate.split('-').map(Number);
