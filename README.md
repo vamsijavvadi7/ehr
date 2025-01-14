@@ -1,27 +1,72 @@
-# Ehr
+# EHR - Electronic Health Record System
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.11.
+🚀 **Exciting Announcement: Introducing My New EHR System with Enhanced User Services!** 🚀
 
-## Development server
+I’m thrilled to share my **new project**, an **Electronic Health Record (EHR)** system I developed, designed to streamline hospital workflows and enhance patient care. Built using **Angular**, **Java**, and a **Microservices Architecture**, this system integrates functionalities across various departments seamlessly.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Key Features
 
-## Code scaffolding
+### 🏥 **Admin / Hospital Staff Workflow:**
+- Manages **doctor** and **admin** profiles. 👨‍⚕️
+- Admins can **add**, **update**, or **remove** doctors, admins, and patients from the system. 🛠️
+- Hospital staff/admins can **register patients**, browse **available doctors**, and **schedule appointments**. 📅
+- On patient check-in, doctors instantly gain access to **medical records**, including **prescriptions**, **diagnoses**, and **family history**. 📋
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### 🩺 **Doctor's Workflow:**
+- Doctors can **view appointments**. On patient visit, they can view patient records, family histories, prescriptions, diagnosis, and visit info. 👩‍🔬
+- During the **examination**, doctors can add new entries or draw conclusions from the patient’s current and previous states. 📄
+- After completing an appointment, doctors write all examinations under the **visit info tab** for future reference by other doctors. 🔎
+- Doctors can **update personal details** and **set their availability**, specifying the days and times they want to work. ⏰
 
-## Build
+### 💻 **Technologies Used:**
+- **Angular** for the front end. 🌐
+- **Java & Spring Boot** for backend services. 🔧
+- **Microservices Architecture** with **Service Registry** and **Application Gateway**. 🏗️
+- **Kafka** for real-time notifications. 🔔
+- **Docker** for containerization and easy deployment. 📦
+- **User Authentication & OTP Service** to manage **secure login** and **password recovery**. 🔒
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+This enhanced **User Services** module ensures **personalized, secure access** for each user, with robust **authentication**, **OTP-based password recovery**, and detailed **activity tracking**. With this system, **doctor-patient interaction** and **hospital operations** are streamlined for more efficient and accurate patient care. 👏
 
-## Running unit tests
+Tracks **user activities**, **login details**, and **roles**. Each user (admin, doctor, patient) has customized access with detailed logs of their activities and role-based permissions. 📝
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+---
 
-## Running end-to-end tests
+## Microservices Components
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- **Service Discovery**: [EHR Service Registry](https://github.com/vamsijavvadi7/EHR-Service-Registry)
+- **API Gateway**: [EHR API Gateway](https://github.com/vamsijavvadi7/EHR-Api-Gateway)
+- **Patient Service**: [EHR Patient Service](https://github.com/vamsijavvadi7/EHR-PatientService)
+- **Appointment Service**: [EHR Appointment Service](https://github.com/vamsijavvadi7/EHR-AppointmentService)
+- **Doctor Service**: [EHR Doctor Service](https://github.com/vamsijavvadi7/EHR-DoctorService)
+- **Admin Service**: [EHR Admin Service](https://github.com/vamsijavvadi7/EHR-AdminService)
+- **Users Service**: [EHR Users Service](https://github.com/vamsijavvadi7/EHR-UsersService)
+- **Patient Medical Records**: [EHR Patient Medical Records](https://github.com/vamsijavvadi7/EHR-PatientMedicalRecords)
 
-## Further help
+## Installation
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Development Server
+
+To run the development server, use the following command:
+
+```bash
+ng serve
+```
+
+Navigate to `http://localhost:4200/login` to access the login page.
+
+---
+
+## Future Enhancements
+
+I’m excited to continue refining and scaling this system to improve healthcare services globally! 🌍💡
+
+---
+
+## GitHub Link:
+[EHR Project GitHub Repository](https://lnkd.in/eCz_hYWn)
+
+---
+
+## Hashtags
+#EHR #HealthTech #Microservices #Angular #SpringBoot #Kafka #Docker #Agile #HealthcareInnovation #DigitalHealth #TechForGood #PatientCare #UserSecurity #Modernizingmedicine #ModMed
