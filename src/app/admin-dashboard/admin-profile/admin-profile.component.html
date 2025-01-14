@@ -1,33 +1,49 @@
-<div *ngIf="adminProfile">
-  <mat-card class="profile-card">
-
+<div *ngIf="adminProfile" class="w-full max-w-3xl mx-auto p-6 ">
+  <!-- Profile Card -->
+  <div class="bg-white rounded-lg overflow-hidden shadow-md">
 
     <!-- Profile Header -->
-    <h2 class="profile-header">Admin Profile</h2>
+    <div class="bg-[#411864] py-6 text-center">
+      <h2 class="text-3xl font-semibold text-white">Profile</h2>
+    </div>
 
-    <mat-card-content>
+    <!-- Profile Content -->
+    <div class="p-6 space-y-8">
+
       <!-- Profile Information -->
-      <table class="profile-table">
-        <tr>
-          <th>First Name</th>
-          <td>{{ adminProfile.firstName }}</td>
-        </tr>
-        <tr>
-          <th>Last Name</th>
-          <td>{{ adminProfile.lastName }}</td>
-        </tr>
-        <tr>
-          <th>Email</th>
-          <td>{{ adminProfile.email }}</td>
-        </tr>
-      </table>
-    </mat-card-content>
-  </mat-card>
-</div>
-<div *ngIf="errorMessage" class="error-message">
-  {{ errorMessage }}
+      <div>
+        <h3 class="text-2xl font-semibold text-gray-700">Personal Information</h3>
+        <table class="min-w-full mt-4 table-auto text-left text-gray-700">
+          <tbody>
+          <tr class="border-b border-gray-200">
+            <th class="px-6 py-3 text-gray-600">First Name</th>
+            <td class="px-6 py-3">{{ adminProfile.firstName }}</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <th class="px-6 py-3 text-gray-600">Last Name</th>
+            <td class="px-6 py-3">{{ adminProfile.lastName }}</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <th class="px-6 py-3 text-gray-600">Email</th>
+            <td class="px-6 py-3">{{ adminProfile.email }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
 </div>
 
+<!-- Error Message -->
+<div *ngIf="errorMessage" class="text-center text-red-600 mt-6">
+  <p>{{ errorMessage }}</p>
+</div>
+
+<!-- Loading Template -->
 <ng-template *ngIf="errorMessage !== '' && !adminProfile">
-  <loading message="Profile Loading"></loading>
+  <div class="flex justify-center items-center mt-6">
+    <loading message="Profile Loading"></loading>
+  </div>
 </ng-template>

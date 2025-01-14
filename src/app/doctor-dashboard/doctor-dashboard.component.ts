@@ -25,6 +25,9 @@ import {Appointment} from '../services/interfaces/doctorappointment.interface';
 export class DoctorDashboardComponent implements OnInit{
   socketClient:any=null;
   stompClient!: Stomp.Client;
+  appointmentsNotifications:Array<String>=[];
+  showNotifications: boolean=false;
+  appointmentNotificationCount:number=0;
   isProfileMenuVisible: boolean = false;  // Controls visibility of the profile menu
   showDoctorProfile: boolean = false;     // Controls visibility of doctor profile
   editDoctorProfile: boolean = false;
@@ -48,13 +51,17 @@ export class DoctorDashboardComponent implements OnInit{
 
     this.stompClient.connect({}, () => {
       console.log('WebSocket connected');
-      this.stompClient.subscribe(`/user/2/doctor/appointments`, (message) => {
+      this.stompClient.subscribe(`/user/`+this.user?.id+`/doctor/appointments`, (message) => {
         // Parse the JSON message body
         const msg = JSON.parse(message.body);
         // Cast the parsed object to the Appointment type
         const appointment: Appointment = msg as Appointment;
-        const dateTimeString =appointment.appointmentTime;
 
+
+
+        this.appointmentNotificationCount++;
+
+        const dateTimeString =appointment.appointmentTime;
         // Create a Date object
         const dateObject = new Date(dateTimeString);
 
@@ -75,8 +82,10 @@ export class DoctorDashboardComponent implements OnInit{
 // Combine the formatted date and time
         const formattedDateTime = `${formattedDate}, ${formattedTime}`;
 
-
         this.toasterService.success("New Appointment with "+appointment.patient.firstName+" "+appointment.patient.lastName+" "+formattedDateTime);
+
+        this.appointmentsNotifications.unshift("New Appointment with "+appointment.patient.firstName+" "+appointment.patient.lastName+" "+formattedDateTime);
+
       });
     });
   }
@@ -101,6 +110,7 @@ export class DoctorDashboardComponent implements OnInit{
   }
 
   // Function to go back to appointments view (optional)
+
   backToAppointments(): void {
     this.showDoctorProfile = false;  // Hide doctor profile and show appointment list
     this.editDoctorProfile = false;

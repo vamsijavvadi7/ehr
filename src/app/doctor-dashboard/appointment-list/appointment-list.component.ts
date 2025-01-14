@@ -125,10 +125,19 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
       // Call the service to fetch appointments based on the form values
       this.appointmentsLoaded = false;
       const selectedDate = formValues.date instanceof Date ? formValues.date : new Date(formValues.date);
+    // Helper function to format date as YYYY-MM-DD
+    function formatDateToLocal(date:Date):string {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Ensure 2-digit month
+      const day = String(date.getDate()).padStart(2, '0'); // Ensure 2-digit day
+      return `${year}-${month}-${day}`;
+    }
+    const formattedSelectedDate = formatDateToLocal(selectedDate);
+
       const subscription = this.doctorService
         .getDoctorAppointments(
           this.doctorProfile?.id,
-          selectedDate.toISOString().split('T')[0],
+          formattedSelectedDate,
           formValues.startTime,
           formValues.endTime
         )

@@ -1,52 +1,72 @@
-<div *ngIf="doctorProfile">
-  <mat-card class="profile-card">
-    <!-- Back button -->
-    <button mat-icon-button color="primary" (click)="backToAppointments()" class="back-button">
-      <i class="material-icons">arrow_back</i>
-    </button>
+<div *ngIf="doctorProfile" class="w-full max-w-3xl mx-auto p-6 ">
+  <!-- Profile Card -->
+  <div class="bg-white rounded-lg overflow-hidden shadow-md relative">
+
+    <!-- Back Button -->
+    <div class="absolute top-6 left-6 z-10">
+      <button mat-icon-button color="primary" (click)="backToAppointments()" class="bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 focus:outline-none">
+        <i class="material-icons">arrow_back</i>
+      </button>
+    </div>
 
     <!-- Profile Header -->
-    <h2 class="profile-header">Profile</h2>
+    <div class="bg-[#411864] py-6 text-center">
+      <h2 class="text-3xl font-semibold text-white">Profile</h2>
+    </div>
 
-    <mat-card-content>
+    <!-- Profile Content -->
+    <div class="p-6 space-y-8">
+
       <!-- Profile Information -->
-      <table class="profile-table">
-        <tr>
-          <th>Name</th>
-          <td>{{ doctorProfile.firstName + " " + doctorProfile.lastName }}</td>
-        </tr>
-        <tr>
-          <th>Email</th>
-          <td>{{ doctorProfile.email }}</td>
-        </tr>
-        <tr>
-          <th>Specialization</th>
-          <td>{{ doctorProfile.specialization }}</td>
-        </tr>
-        <tr>
-          <th>Phone</th>
-          <td>{{ doctorProfile.phone }}</td>
-        </tr>
-        <tr>
-          <th>Days Available</th>
-          <td>{{ doctorProfile.availability.availableDays }}</td>
-        </tr>
-        <tr>
-          <th>Available From</th>
-          <td>{{ formatTime(doctorProfile.availability.availableFrom) }}</td>
-        </tr>
-        <tr>
-          <th>Available Until</th>
-          <td>{{ formatTime(doctorProfile.availability.availableUntil) }}</td>
-        </tr>
-      </table>
-    </mat-card-content>
-  </mat-card>
-</div>
-<div *ngIf="errorMessage" class="error-message">
-  {{ errorMessage }}
+      <div>
+        <h3 class="text-2xl font-semibold text-gray-700">Personal Information</h3>
+        <table class="min-w-full mt-4 table-auto text-left text-gray-700">
+          <tbody>
+          <tr class="border-b border-gray-200">
+            <th class="px-6 py-3 text-gray-600">Name</th>
+            <td class="px-6 py-3">{{ doctorProfile.firstName + " " + doctorProfile.lastName }}</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <th class="px-6 py-3 text-gray-600">Email</th>
+            <td class="px-6 py-3">{{ doctorProfile.email }}</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <th class="px-6 py-3 text-gray-600">Specialization</th>
+            <td class="px-6 py-3">{{ doctorProfile.specialization }}</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <th class="px-6 py-3 text-gray-600">Phone</th>
+            <td class="px-6 py-3">{{ doctorProfile.phone }}</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <th class="px-6 py-3 text-gray-600">Days Available</th>
+            <td class="px-6 py-3">{{ doctorProfile.availability.availableDays }}</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <th class="px-6 py-3 text-gray-600">Available From</th>
+            <td class="px-6 py-3">{{ formatTime(doctorProfile.availability.availableFrom) }}</td>
+          </tr>
+          <tr class="border-b border-gray-200">
+            <th class="px-6 py-3 text-gray-600">Available Until</th>
+            <td class="px-6 py-3">{{ formatTime(doctorProfile.availability.availableUntil) }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
 </div>
 
-<ng-template  *ngIf="errorMessage!='' && !doctorProfile" >
-<loading message="Profile Loading" ></loading>
+<!-- Error Message -->
+<div *ngIf="errorMessage" class="text-center text-red-600 mt-6">
+  <p>{{ errorMessage }}</p>
+</div>
+
+<!-- Loading Template -->
+<ng-template *ngIf="errorMessage !== '' && !doctorProfile">
+  <div class="flex justify-center items-center mt-6">
+    <loading message="Profile Loading"></loading>
+  </div>
 </ng-template>

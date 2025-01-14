@@ -1,10 +1,10 @@
-<div class="container w-full h-full flex items-center justify-center bg-gray-100">
-  <div class="w-full h-full max-w-4xl mx-auto p-6">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Schedule Appointment</h2>
+<div class="container w-full h-full flex items-center justify-center bg-gradient-to-b from-blue-50 to-gray-100">
+  <div class="w-full h-full max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8 mt-32 mb-32">
+    <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Schedule Appointment</h2>
 
     <!-- Patient Selection or Registration -->
     <div class="mb-6 relative">
-      <label for="patientSearch" class="block text-sm font-medium text-gray-700">Search or Add Patient</label>
+      <label for="patientSearch" class="block text-sm font-medium text-gray-600">Search or Add Patient</label>
       <input
         id="patientSearch"
         type="text"
@@ -12,80 +12,78 @@
         (ngModelChange)="searchPatient()"
         (focus)="showDropdown()"
         (blur)="hideDropdown()"
-        class="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow"
         placeholder="Enter patient name or ID"
       />
 
       <!-- Dropdown for patient suggestions -->
-      <ul *ngIf="dropdownVisible && filteredPatients.length > 0" class="absolute bg-white border border-gray-300 rounded-md shadow-lg mt-1 max-h-48 w-full overflow-auto z-10"
+      <ul *ngIf="dropdownVisible && filteredPatients.length > 0"
+          class="absolute bg-white border border-gray-200 rounded-lg shadow-md mt-2 max-h-48 w-full overflow-auto z-10"
           (mousedown)="onDropdownClick()">
         <li
           *ngFor="let patient of filteredPatients"
           [class.bg-blue-100]="patient === selectedPatient"
           (click)="selectPatient(patient)"
-          class="p-2 hover:bg-gray-100 cursor-pointer"
+          class="p-3 hover:bg-blue-50 cursor-pointer transition"
         >
           {{ patient.firstName }} {{ patient.lastName }}
         </li>
       </ul>
 
       <!-- Message when no matching patients found -->
-      <div *ngIf="!filteredPatients.length && patientSearchQuery" class="p-2 text-gray-500">
-        No matching patients found. <span (click)="addPatient()" class="text-blue-500 cursor-pointer">Add New Patient</span>
+      <div *ngIf="!filteredPatients.length && patientSearchQuery"
+           class="p-3 mt-2 text-gray-500 text-center">
+        No matching patients found.
+        <span (click)="addPatient()" class="text-blue-500 cursor-pointer hover:underline">Add New Patient</span>
       </div>
     </div>
 
-
-
     <!-- Appointment Date -->
     <div class="mb-6">
-      <label for="appointmentDate" class="block text-sm font-medium text-gray-700">Select Appointment Date</label>
+      <label for="appointmentDate" class="block text-sm font-medium text-gray-600">Select Appointment Date</label>
       <input
         id="appointmentDate"
         type="date"
         [(ngModel)]="appointmentDate"
         (change)="loadDoctors()"
-        class="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow"
       />
     </div>
 
     <!-- Doctor Selection -->
     <div class="mb-6" *ngIf="appointmentDate!=''">
-      <label for="doctor" class="block text-sm font-medium text-gray-700">Select Doctor</label>
+      <label for="doctor" class="block text-sm font-medium text-gray-600">Select Doctor</label>
       <select
         id="doctor"
         [(ngModel)]="selectedDoctor"
         (ngModelChange)="getDoctorAvailableSlots()"
-        class="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow"
       >
+        <option *ngIf="availableDoctors.length === 0" disabled>Loading.......</option>
         <option *ngFor="let doctor of availableDoctors" [ngValue]="doctor">
-          <div *ngIf="availableDoctors">
-            {{ doctor.firstName }} {{ doctor.lastName }}
-          </div>
-          <div *ngIf="!availableDoctors">
-         Loading.......
-          </div>
+          {{ doctor.firstName }} {{ doctor.lastName }}
         </option>
       </select>
     </div>
 
     <!-- Available Time Slots -->
     <div *ngIf="availableTimeSlots.length > 0" class="mb-6">
-      <label for="appointmentTime" class="block text-sm font-medium text-gray-700">Select Available Time Slot</label>
+      <label for="appointmentTime" class="block text-sm font-medium text-gray-600">Select Available Time Slot</label>
       <select
         id="appointmentTime"
         [(ngModel)]="selectedTimeSlot"
-        class="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition-shadow"
       >
+        <option>Select TimeSlot</option>
         <option *ngFor="let slot of availableTimeSlots" [value]="slot">{{ slot }}</option>
       </select>
     </div>
 
     <!-- Submit Appointment -->
-    <div class="flex justify-end">
+    <div class="flex justify-center mt-6">
       <button
         (click)="scheduleAppointment()"
-        class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+        class="px-6 py-3 bg-gradient-to-r from-green-400 to-green-600 text-white rounded-lg hover:shadow-lg hover:bg-green-500 transition-all"
       >
         Schedule Appointment
       </button>

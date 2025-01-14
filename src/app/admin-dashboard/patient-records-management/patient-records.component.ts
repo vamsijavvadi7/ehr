@@ -4,12 +4,15 @@ import {FormsModule} from '@angular/forms';
 import {AdminAddOrEditPatientComponent} from './admin-add-or-edit-patient/admin-add-or-edit-patient.component';
 import {AdminPatientService} from '../../services/admin/admin-patient/admin-patient.service';
 import {Patient} from '../../services/interfaces/patientoverview/patientoverview.interface';
+import {
+  AdminAddOrEditDoctorComponent
+} from '../doctor-management/admin-add-or-edit-doctor/admin-add-or-edit-doctor.component';
 
 
 @Component({
   selector: 'app-admin-patient-records',
   standalone: true,
-  imports: [CommonModule, FormsModule, AdminAddOrEditPatientComponent],
+  imports: [CommonModule, FormsModule, AdminAddOrEditPatientComponent, AdminAddOrEditDoctorComponent],
   templateUrl: './patient-records.component.html',
   styleUrl: './patient-records.component.css'
 })

@@ -60,7 +60,7 @@ export class AdminAddOrEditDoctorComponent implements OnInit {
     this.doctorProfileForm = this.fb.group({
       firstName: [''],
       lastName: [''],
-      email: ['', [Validators.email]],
+      email: [''],
       specialization: [''],
       phone: ['', [Validators.pattern('^\\+?[0-9]{10,15}$')]],
       availableDays: [''],
@@ -77,7 +77,7 @@ export class AdminAddOrEditDoctorComponent implements OnInit {
       this.doctorProfileForm = this.fb.group({
         firstName: [this.doctorProfile.firstName],
         lastName: [this.doctorProfile.lastName],
-        email: [this.doctorProfile.email, [Validators.email]],
+        email: [''],
         specialization: [this.doctorProfile.specialization],
         phone: [this.doctorProfile.phone, [Validators.pattern('^\\+?[0-9]{10,15}$')]],
         availableDays: [this.doctorProfile.availability.availableDays],

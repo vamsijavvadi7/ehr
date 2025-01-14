@@ -76,7 +76,7 @@ export class AdminAddOrEditPatientComponent implements OnInit {
       this.patientProfileForm = this.fb.group({
         firstName: [this.patientProfile.firstName],
         lastName: [this.patientProfile.lastName],
-        email: [this.patientProfile.email, [Validators.email]],
+        email: [''],
         phone: [this.patientProfile.phone, [Validators.pattern('^\\+?[0-9]{10,15}$')]],
         street: [this.patientProfile.address.street],
         city: [this.patientProfile.address.city],

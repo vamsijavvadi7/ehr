@@ -4,10 +4,55 @@
     <div class="navbar-logo">
       <i><img src="symbol.webp" alt="Logo" class="navbar-logo-icon"></i>
     </div>
+
+    <div class="relative ml-auto mr-5 mt-3">
+      <!-- Notification Icon -->
+      <div class="relative inline-block cursor-pointer" (click)="appointmentNotificationCount = 0; showNotifications = !showNotifications">
+        <img
+          class="w-8 h-8"
+          src="notification.png"
+          alt="Profile"
+        />
+        <!-- Red Dot for Notification Count -->
+        <span
+          *ngIf="appointmentNotificationCount > 0"
+          class="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full -mt-1 -mr-1"
+        >
+      {{ appointmentNotificationCount }}
+    </span>
+      </div>
+
+      <!-- Dropdown for Notifications -->
+      <div
+        class="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+        *ngIf="showNotifications && appointmentsNotifications.length > 0"
+      >
+        <div *ngFor="let appointment of appointmentsNotifications" class="px-4 py-2 bg-green-500 ql-color-white hover:bg-gray-20">
+         <ul>
+          <li>
+           {{ appointment }}
+          </li>
+         </ul>
+
+        </div>
+
+      </div>
+
+      <!-- No Notifications Message -->
+      <div
+        class="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50 p-4 text-gray-500 text-center"
+        *ngIf="showNotifications && appointmentsNotifications.length === 0"
+      >
+        No new notifications
+      </div>
+    </div>
+
+
     <!-- Profile icon and dropdown -->
     <div class="profile-menu">
       <img class="profile-icon" src="person.jpg" alt="Profile" (click)="toggleProfileMenu()" />
       <div class="dropdown" *ngIf="isProfileMenuVisible">
+
         <div class="dropdown-item" (click)="viewDoctorProfile()">View Profile</div>
         <div class="dropdown-item" (click)="vieweditDoctorProfile()">Edit Profile</div>
         <div class="dropdown-item" (click)="logOut()">Log out</div>

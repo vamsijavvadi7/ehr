@@ -130,7 +130,6 @@ export class AppointmentSchedulingComponent implements OnInit{
         }
         // Check if the slot is already booked
         if (this.isSlotBooked(date, slotTime)) {
-          console.log("skipped"+slotTime+date);
           continue;
         }
 
