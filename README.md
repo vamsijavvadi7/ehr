@@ -63,7 +63,5 @@ I’m excited to continue refining and scaling this system to improve healthcare
 
 ---
 
----
-
 ## Hashtags
 #EHR #HealthTech #Microservices #Angular #SpringBoot #Kafka #Docker #Agile #HealthcareInnovation #DigitalHealth #TechForGood #PatientCare #UserSecurity #Modernizingmedicine #ModMed
