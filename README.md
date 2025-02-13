@@ -63,9 +63,6 @@ I’m excited to continue refining and scaling this system to improve healthcare
 
 ---
 
-## GitHub Link:
-[EHR Project GitHub Repository](https://lnkd.in/eCz_hYWn)
-
 ---
 
 ## Hashtags
